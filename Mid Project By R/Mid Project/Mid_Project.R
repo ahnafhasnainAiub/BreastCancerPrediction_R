@@ -1,0 +1,132 @@
+install.packages("dplyr")
+library(dplyr)
+install.packages("tidyverse")
+library(tidyverse)
+
+df <- read.csv("E:/R Mid Project/Dataset_midterm_Section(B).csv", 
+               header = TRUE, sep = ",", na.string = c(""))
+head(df)
+View(df)
+
+names(df)
+
+str(df)
+
+summary(df)
+
+
+
+hist(df$age,breaks = 100,col = "yellow",main = "Histogram of Age",xlab = "Age")
+
+
+hist(df$fare,breaks = 100,col = "blue",main = "Histogram of Fare",xlab = "Fare")
+ggplot(df, aes(x = fare, fill="red")) + geom_histogram(binwidth = 30)
+
+ggplot(data =df,aes(x=class, fill ="red")) + geom_bar()
+
+ggplot(data =df,aes(x=embarked, fill ="red")) + geom_bar()
+
+plot(x=df$age,y=df$fare,main = "Age Vs Fare",
+     xlab="Age",ylab="Fare",xlim=c(0,100),ylim=c(0,300))
+5
+summary(df)
+
+colSums(is.na(df))
+
+mean(df$age,na.rm = TRUE)
+df$age[is.na(df$age)] <-mean(df$age,na.rm=TRUE)
+
+median(df$age,na.rm = TRUE)
+
+
+names(sort(-table(df$class)))[1]
+
+Mode <- function(x){
+  ux <- na.omit(unique(x))
+  tab <- tabulate(match(x,ux)); ux[tab == max(tab)]
+}
+Mode(df$class)
+df$class[is.na(df$class)] <- Mode(df$class)
+
+df <- remove <- na.omit(df)
+colSums(is.na(df))
+
+duplicated(df)
+str(df)
+
+distinct(df)
+str(df)
+duplicated(df)
+
+df <- unique(df)
+df <- df[!duplicated(df),]
+str(df)
+
+df$class <-(factor(df$class,
+                   levels = c('First', 'Second', 'Third'), 
+                   labels = c(1,2,3)))
+str(df)
+
+
+df$class <- as.integer(df$class)
+str(df)
+
+unique(df$who)
+df['who']=df['who'].replace('mannn';'man')
+df['who']<-df['who'].replace('womann','woman')
+df['who']<-df['who'].replace('womannn','woman')
+
+
+df1 <- df
+str(df1)
+
+summary(df1$age)
+IQR_age <- 40 - 21
+upper_age <- 40 + 1.5*IQR_age
+upper_age
+lower_age <- 21 -1.5*IQR_age
+lower_age
+
+boxplot(df1$age)
+data <- df1[!(df1$age<lower_age | df1$age>upper_age),]
+boxplot(data$age)
+summary(data$age)
+
+summary(df1$fare)
+boxplot(df1$fare)
+IQR_fare <- 39 - 7.925
+upper_fare <- 39 + 1.5*IQR_fare
+upper_fare
+lower_fare <- 7.925 - 1.5*IQR_fare
+lower_fare
+
+boxplot(df1$fare)
+grid()
+data <- df1[!(df1$fare<lower_fare | df1$fare>upper_fare),]
+boxplot(data$fare)
+grid()
+summary(data$fare)
+
+print(sd(data$fare))
+print(sd(data$age))
+
+
+data %>% summarize_if(is.numeric, mean)
+
+data %>% summarize_if(is.numeric, median)
+
+data %>% summarize_if(is.numeric, mode)
+
+data %>% summarize_if(is.numeric, sd)
+
+
+data <- subset(data, select = -c(sibsp, parch, embarked, who))
+head(data)
+View(data)
+
+titanic_target <- data[6]
+head(titanic_target)
+
+titanic_feature <- data[1:5]
+head(titanic_feature)
+
